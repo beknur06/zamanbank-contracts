@@ -1,10 +1,14 @@
 package com.kz.contracts.entities;
 
+import com.kz.contracts.enums.AccountType;
+import com.kz.contracts.enums.CardType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,8 +19,9 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Account account;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(unique = true, nullable = false)
     private String cardNumber;
@@ -30,6 +35,19 @@ public class Card {
     @Column(nullable = false)
     private String cvv;
 
-    private String cardType;
+    private CardType cardType;
+
+    @Column(nullable = false)
+    private BigDecimal balance;
+
+    @Column(nullable = false)
+    private String currency;
+
+    private AccountType accountType;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
+
+    private String designImageUrl;
 }
 
