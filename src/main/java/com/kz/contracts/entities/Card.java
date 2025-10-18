@@ -45,7 +45,7 @@ public class Card {
 
     private AccountType accountType;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 
     private String designImageUrl;
